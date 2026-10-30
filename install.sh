@@ -199,6 +199,7 @@ configure_telegram_bots() {
     sonarr_bot_token=""
     radarr_bot_token=""
     bot_allowed_userids=""
+    bot_webhook_token=""
 
     if [ "$setup_bots" = "y" ]; then
         compose_profiles="telegram-bots"
@@ -215,10 +216,13 @@ configure_telegram_bots() {
 
         read -p "Allowed Telegram user IDs (comma separated, group IDs are negative): " bot_allowed_userids
         [ -z "$bot_allowed_userids" ] && log_error "Allowed user IDs cannot be empty"
+
+        # Secret used in the webhook URL that Sonarr/Radarr call
+        bot_webhook_token=$(head -c 16 /dev/urandom | od -An -tx1 | tr -d ' \n')
     fi
 
     # Export for use in other functions
-    export setup_bots compose_profiles bot_image_owner sonarr_bot_token radarr_bot_token bot_allowed_userids
+    export setup_bots compose_profiles bot_image_owner sonarr_bot_token radarr_bot_token bot_allowed_userids bot_webhook_token
 }
 
 running_services_location() {
@@ -317,7 +321,8 @@ update_configuration_files() {
            -e "s|<bot_image_owner>|$bot_image_owner|g" \
            -e "s|<sonarr_bot_token>|$sonarr_bot_token|g" \
            -e "s|<radarr_bot_token>|$radarr_bot_token|g" \
-           -e "s|<bot_allowed_userids>|$bot_allowed_userids|g" "$env_file" || \
+           -e "s|<bot_allowed_userids>|$bot_allowed_userids|g" \
+           -e "s|<bot_webhook_token>|$bot_webhook_token|g" "$env_file" || \
         log_error "Failed to update .env file"
 
     # Update docker-compose.yaml

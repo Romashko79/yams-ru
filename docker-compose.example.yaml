@@ -153,6 +153,8 @@ services:
       - SBOT_SONARR_HOSTNAME=sonarr
       - SBOT_SONARR_PORT=8989
       - SBOT_SONARR_API_KEY=${SONARR_API_KEY}
+      - SBOT_WEBHOOK_PORT=8090
+      - SBOT_WEBHOOK_TOKEN=${BOT_WEBHOOK_TOKEN}
     restart: unless-stopped
     networks:
       yams_network:
@@ -174,6 +176,8 @@ services:
       - RBOT_RADARR_HOSTNAME=radarr
       - RBOT_RADARR_PORT=7878
       - RBOT_RADARR_API_KEY=${RADARR_API_KEY}
+      - RBOT_WEBHOOK_PORT=8090
+      - RBOT_WEBHOOK_TOKEN=${BOT_WEBHOOK_TOKEN}
     restart: unless-stopped
     networks:
       yams_network:

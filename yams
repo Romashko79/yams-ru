@@ -117,6 +117,13 @@ setup_bots() {
 
     $DC up -d telegram-bot-sonarr telegram-bot-radarr || log_error "Failed to start the Telegram bots"
     log_success "Telegram bots configured and started"
+
+    local webhook_token
+    webhook_token=$(sed -n 's/^BOT_WEBHOOK_TOKEN=//p' "$env_file" | head -n 1)
+    echo
+    echo "To receive notifications in Russian, add a Webhook connection (Settings -> Connect -> + -> Webhook):"
+    echo "  Sonarr: URL http://telegram-bot-sonarr:8090/webhook?token=$webhook_token  Method: POST"
+    echo "  Radarr: URL http://telegram-bot-radarr:8090/webhook?token=$webhook_token  Method: POST"
 }
 
 backup_yams() {

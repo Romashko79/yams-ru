@@ -120,6 +120,10 @@ Before installing:
 
 During =install.sh= answer =y= to "Install the Telegram bots?" and enter your GitHub user, both tokens and the allowed user IDs. Sonarr and Radarr create their API keys on first start, so the installer runs =yams setup-bots=, which reads the keys from their =config.xml=, saves them in =.env= and starts the bots. If it fails, wait a minute and run =yams setup-bots= again.
 
+** Russian notifications
+
+Sonarr and Radarr send their own Telegram notifications in English and cannot translate them. Instead, the bots accept Sonarr/Radarr *Webhook* events and send them to Telegram in Russian. =yams setup-bots= prints the two URLs. In Sonarr and Radarr open /Settings -> Connect -> + -> Webhook/, paste the URL (=http://telegram-bot-sonarr:8090/webhook?token=...= and =http://telegram-bot-radarr:8090/webhook?token=...=), choose method *POST*, tick the events you want and press /Test/. The token is stored in =.env= as =BOT_WEBHOOK_TOKEN=. Health messages are quoted as Sonarr/Radarr produce them (in English).
+
 * Installation
 :PROPERTIES:
 :ID:       a0417c61-3fd8-40a0-9385-6c5aaed37337
