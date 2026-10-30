@@ -28,6 +28,8 @@ services:
       - /etc/localtime:/etc/localtime:ro
       - ${MEDIA_DIRECTORY}:/data
       - ${INSTALL_DIRECTORY}/config/qbittorrent:/config
+    mem_limit: 3g # memory limit
+    memswap_limit: 3g # same value as mem_limit: swap is not used on top of it
     restart: unless-stopped
     ports: # qbittorrent
       - 8081:8081 # qbittorrent
